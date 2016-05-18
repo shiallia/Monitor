@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 //using System.Collections.Generic;
 //using System.Diagnostics;
 //using System.Linq;
@@ -21,7 +22,7 @@ using System.Windows.Input;
 //using System.Windows.Navigation;
 //using System.Windows.Shapes;
 
-namespace DeviceManager
+namespace MyMonitor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -85,6 +86,7 @@ namespace DeviceManager
 
         public MainWindow()
         {
+            
             InitializeComponent();
         }
 
@@ -93,31 +95,35 @@ namespace DeviceManager
             util = new Monitor();
             util.callback += Callback;
             totMem = util.GetPhysicalMemSize();
-            System.Threading.ThreadPool.QueueUserWorkItem(WorkerItem);
+
+            Thread t1 = new Thread(new ThreadStart(util.Run));
+            t1.IsBackground = true;           
+            t1.Start();
+            
             memTotal.Text = ConvertBytes(totMem, 3) + " GB";
         }
 
-        void WorkerItem(object arg)
-        {
-            util.Run();
-        }
 
-        void Callback(float cpu, ulong mem, string ip, string yzdmem)
+
+
+        void Callback(float cpu, ulong mem, string ip)
         {
             var pcpu = Math.Round(cpu, 2, MidpointRounding.AwayFromZero);
             var used_mem = totMem - mem;
             var mb_mem = ConvertBytes(used_mem, 2);
             var pmem = ConvertBytes(Convert.ToUInt64(mb_mem), 1);
+            //MessageBox.Show(pcpu.ToString());
 
+            
             Dispatcher.Invoke((Action)(() =>
             {
                 cpuT.Text = pcpu + "%";
                 cpuP.Value = pcpu;
-                memT.Text = String.Format("内存总占用：{0} GB ({1:N} MB)", pmem, mb_mem);
-                yzdmemT.Text = "会议程序占用：" + yzdmem + "MB";
+                memT.Text = String.Format("内存总占用：{0} GB ({1:N} MB)", pmem, mb_mem);                
                 memP.Value = (double)(used_mem / Convert.ToDecimal(totMem) * 100);
                 ipT.Text = ip;
             }));
+            
         }
 
         decimal ConvertBytes(ulong b, int iteration)
@@ -135,8 +141,8 @@ namespace DeviceManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //SettingWindow settingWindow = new SettingWindow();
-            //settingWindow.ShowDialog();
+            SettingWindow settingWindow = new SettingWindow();
+            settingWindow.ShowDialog();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

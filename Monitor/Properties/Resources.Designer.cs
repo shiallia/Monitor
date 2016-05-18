@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Monitor.Properties
+namespace MyMonitor.Properties
 {
 
 

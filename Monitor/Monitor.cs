@@ -6,14 +6,15 @@ using System.Diagnostics;
 //using System.Management;
 using Microsoft.VisualBasic.Devices;
 using System.Net.NetworkInformation;
+using System.Windows;
 
 
 //这里面添加了一些注释
-namespace DeviceManager
+namespace MyMonitor
 {
     class Monitor : IDisposable
     {
-        public delegate void CallbackEventHandler(float a, ulong b, string c, string d);
+        public delegate void CallbackEventHandler(float a, ulong b, string c);
 
         public event CallbackEventHandler callback;
 
@@ -27,9 +28,11 @@ namespace DeviceManager
 
         public Monitor()
         {
-            cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             cinf = new ComputerInfo();
+
+            cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total");
             
+
         }
 
         public void Run()
@@ -48,7 +51,7 @@ namespace DeviceManager
                 for (int i = 0; i < len; i++)  
                 {
                     NetworkInterface ni = interfaces[i];
-                    if (ni.Name == "WLAN")
+                    if (ni.Name == "本地连接")
                     {
                         IPInterfaceProperties property = ni.GetIPProperties();
                         foreach (UnicastIPAddressInformation ip in property.UnicastAddresses)
@@ -61,17 +64,21 @@ namespace DeviceManager
                     }
                 }
 
+                
                 //client进程内存占用
+                /*
                 Process[] myPro = Process.GetProcessesByName("client");
                 string yzdMem = string.Empty;
                 if(myPro.Length != 0)
                 {
                     yzdMem = (myPro[0].PrivateMemorySize64 / 1024 / 1024).ToString();
                 }
+                */
                 
-                callback(percentage, mem , localIP , yzdMem);
+                callback(percentage, mem , localIP);
 
                 System.Threading.Thread.Sleep(1000);
+                
             }
         }
 
