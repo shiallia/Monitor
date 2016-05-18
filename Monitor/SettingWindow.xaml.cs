@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+//测试内容
 namespace MyMonitor
 {
     /// <summary>
