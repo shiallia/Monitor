@@ -7,6 +7,8 @@ using System.Diagnostics;
 using Microsoft.VisualBasic.Devices;
 using System.Net.NetworkInformation;
 
+
+//这里面添加了一些注释
 namespace DeviceManager
 {
     class Monitor : IDisposable
