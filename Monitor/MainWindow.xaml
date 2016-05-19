@@ -1,8 +1,9 @@
 ﻿<Window x:Class="MyMonitor.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="设备监控"  Height="540" Width="525" Background="Transparent" Left="0" Top="0"
-        Loaded="Window_Loaded" Closed="Window_Closed" WindowStyle="None" AllowsTransparency="True" SnapsToDevicePixels="True" Style="{DynamicResource WindowStyle1}" >
+        Title="设备监控"  Height="600" Width="525" Background="Transparent" Left="0" Top="0"
+        Loaded="Window_Loaded" Closed="Window_Closed" WindowStyle="None" AllowsTransparency="True" SnapsToDevicePixels="True" Style="{DynamicResource WindowStyle1}"
+        FocusManager.FocusedElement = "{Binding ElementName=cmd}">
     <Border CornerRadius="10" Background="Black" BorderThickness="3" BorderBrush="Goldenrod" MouseMove="Border_MouseMove">
         <StackPanel>
             <HeaderedContentControl Header="CPU使用" Focusable="False" Style="{DynamicResource HeaderedContentControlStyle1}">
@@ -26,7 +27,9 @@
                 <StackPanel>
                     <TextBlock Foreground="LightGray">当前ip：</TextBlock>
                     <TextBlock Name="ipT" Foreground="LightGray" />
-                    <Button Height="30"   Click="Button_Click" Margin="0,10,0,0" Style="{DynamicResource ButtonStyle1}" >修改ip</Button>
+                    <Button Name="cmd" Height="30"    Margin="0,5,0,0" Style="{DynamicResource ButtonStyle1}" Click="Button_Click_5" >命令行</Button>
+                    <Button Height="30"    Margin="0,5,0,0" Style="{DynamicResource ButtonStyle1}" Click="Button_Click_6" >任务管理器</Button>
+                    <Button Height="30"   Click="Button_Click" Margin="0,5,0,0" Style="{DynamicResource ButtonStyle1}" >修改ip</Button>
                     <Button Height="30"   Margin="0,5,0,0" Click="Button_Click_3"  Style="{DynamicResource ButtonStyle1}">重置版本号</Button>
                     <Button Height="30"   Margin="0,5,0,0"  Click="Button_Click_1" Style="{DynamicResource ButtonStyle1}">恢复出厂设置</Button>
                     <Button Height="30"   Margin="0,5,0,0" Click="Button_Click_2"  Style="{DynamicResource ButtonStyle1}">ewf提交</Button>

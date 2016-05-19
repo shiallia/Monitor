@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -86,6 +87,7 @@ namespace MyMonitor
 
         public MainWindow()
         {
+            //FocusManager.FocusedElement = "{Binding ElementName=[文本框的名字]}"
             
             InitializeComponent();
         }
@@ -94,13 +96,13 @@ namespace MyMonitor
         {
             util = new Monitor();
             util.callback += Callback;
-            totMem = util.GetPhysicalMemSize();
+            
 
             Thread t1 = new Thread(new ThreadStart(util.Run));
             t1.IsBackground = true;           
             t1.Start();
             
-            memTotal.Text = ConvertBytes(totMem, 3) + " GB";
+            
         }
 
 
@@ -112,9 +114,10 @@ namespace MyMonitor
             var used_mem = totMem - mem;
             var mb_mem = ConvertBytes(used_mem, 2);
             var pmem = ConvertBytes(Convert.ToUInt64(mb_mem), 1);
+            totMem = util.GetPhysicalMemSize();
             //MessageBox.Show(pcpu.ToString());
 
-            
+
             Dispatcher.Invoke((Action)(() =>
             {
                 cpuT.Text = pcpu + "%";
@@ -122,6 +125,7 @@ namespace MyMonitor
                 memT.Text = String.Format("内存总占用：{0} GB ({1:N} MB)", pmem, mb_mem);                
                 memP.Value = (double)(used_mem / Convert.ToDecimal(totMem) * 100);
                 ipT.Text = ip;
+                memTotal.Text = ConvertBytes(totMem, 3) + " GB";
             }));
             
         }
@@ -187,6 +191,21 @@ namespace MyMonitor
             {
                 this.DragMove();
             }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            Process.Start("cmd");
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            RegistryHelper rh2 = new RegistryHelper();
+            rh2.SetRegistryData(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", "DisableTaskMgr", "");
+            Thread.Sleep(500);
+            Process.Start("taskmgr");
+            Thread.Sleep(1000);
+            rh2.SetRegistryData(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", "DisableTaskMgr", "1");
         }
     }
 }

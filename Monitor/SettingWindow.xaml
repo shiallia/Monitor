@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="SettingWindow" Height="300" Width="300"   AllowsTransparency="True"
-     WindowStyle="None" Background="Transparent" SnapsToDevicePixels="True">
+     WindowStyle="None" Background="Transparent" SnapsToDevicePixels="True"
+        FocusManager.FocusedElement = "{Binding ElementName=textBoxIp}">
     <Border CornerRadius="10" Background="Black" BorderThickness="2" BorderBrush="Goldenrod" MouseMove="Border_MouseMove" >
         <StackPanel Margin="5">
         <TextBlock x:Name="textBlockIp" TextWrapping="Wrap" Text="ip地址：" Foreground="LightGray"/>

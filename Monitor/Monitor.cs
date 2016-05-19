@@ -28,15 +28,15 @@ namespace MyMonitor
 
         public Monitor()
         {
-            cinf = new ComputerInfo();
-
-            cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-            
+           
 
         }
 
         public void Run()
         {
+            cinf = new ComputerInfo();
+            cpu = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+
             while (true)
             {
                 //cpu占用
