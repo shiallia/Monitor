@@ -30,8 +30,7 @@ namespace MyMonitor
     /// </summary>
     public partial class MainWindow : Window
     {
-        ulong totMem;
-        Monitor util;
+        
 
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section, string key, string val, string filepath);
@@ -94,13 +93,7 @@ namespace MyMonitor
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            util = new Monitor();
-            util.callback += Callback;
-            
-
-            Thread t1 = new Thread(new ThreadStart(util.Run));
-            t1.IsBackground = true;           
-            t1.Start();
+           
             
             
         }
@@ -108,27 +101,7 @@ namespace MyMonitor
 
 
 
-        void Callback(float cpu, ulong mem, string ip)
-        {
-            var pcpu = Math.Round(cpu, 2, MidpointRounding.AwayFromZero);
-            var used_mem = totMem - mem;
-            var mb_mem = ConvertBytes(used_mem, 2);
-            var pmem = ConvertBytes(Convert.ToUInt64(mb_mem), 1);
-            totMem = util.GetPhysicalMemSize();
-            //MessageBox.Show(pcpu.ToString());
-
-
-            Dispatcher.Invoke((Action)(() =>
-            {
-                cpuT.Text = pcpu + "%";
-                cpuP.Value = pcpu;
-                memT.Text = String.Format("内存总占用：{0} GB ({1:N} MB)", pmem, mb_mem);                
-                memP.Value = (double)(used_mem / Convert.ToDecimal(totMem) * 100);
-                ipT.Text = ip;
-                memTotal.Text = ConvertBytes(totMem, 3) + " GB";
-            }));
-            
-        }
+       
 
         decimal ConvertBytes(ulong b, int iteration)
         {
@@ -140,7 +113,7 @@ namespace MyMonitor
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            util.Dispose();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -166,7 +139,7 @@ namespace MyMonitor
         {
             if (MessageBox.Show("本操作将提交对c盘的更改，并重新启动设备", "ewf提交", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
             {
-                System.Diagnostics.Process.Start("commit.bat");
+                System.Diagnostics.Process.Start(@"c:/shell/commit.bat");
             }
         }
 
