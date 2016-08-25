@@ -173,12 +173,12 @@ namespace MyMonitor
 
         private void Button_Click_6(object sender, RoutedEventArgs e)
         {
-            RegistryHelper rh2 = new RegistryHelper();
-            rh2.SetRegistryData(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", "DisableTaskMgr", "");
-            Thread.Sleep(500);
+            //RegistryHelper rh2 = new RegistryHelper();
+            //rh2.SetRegistryData(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", "DisableTaskMgr", "");
+            //Thread.Sleep(500);
             Process.Start("taskmgr");
-            Thread.Sleep(1000);
-            rh2.SetRegistryData(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", "DisableTaskMgr", "1");
+            //Thread.Sleep(1000);
+            //rh2.SetRegistryData(Registry.CurrentUser, "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System", "DisableTaskMgr", "1");
         }
     }
 }
