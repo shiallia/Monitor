@@ -38,7 +38,7 @@ namespace MyMonitor
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retval, int size, string filePath);
 
-        private string strFilePath = @"d:/clent/config/devicetag.ini";//获取INI文件路径
+        private string strFilePath = @"d:/client/config/devicetag.ini";//获取INI文件路径
 
         public static void CopyDir(string srcPath, string aimPath)
         {
